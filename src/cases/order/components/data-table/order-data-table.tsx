@@ -1,36 +1,28 @@
-import { DataTable } from "@/components/ui/data-table";
 import { orderColumns } from "./order-columns";
-import { useOrders } from "../../hooks/use-order";
-import { useCustomers } from "@/cases/customers/hooks/use-customer";
+import { useCustomerByAuthId } from "@/cases/customers/hooks/use-customer";
+import { DataTable } from "@/components/ui/data-table";
+import { useOrdersCustommer } from "../../hooks/use-order";
 
 export function OrderDataTable() {
-    const { data: customers } = useCustomers();
-    const { data: orders, isLoading } = useOrders();
 
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    const userId = user?.id;
-    const customer = customers?.find((customer) => customer.userId === userId);
+    const userStorage = localStorage.getItem("user");
+    const user = userStorage ? JSON.parse(userStorage) : null;
 
-    const filteredOrders =  orders?.filter(order => {
-        if (!customer) return false;
+    const { data: customer, isLoading: loadingCustomer } = useCustomerByAuthId(user?.id);
 
-        if (typeof order.customer === "string") {
-            return order.customer === customer.id;
-        }
+    const { data: orders, isLoading: loadingOrders } = useOrdersCustommer(customer?.id as string);
 
-        return order.customer?.id === customer.id;
-    }) ?? [];
+    console.log("id do customer:", customer?.id);
+    console.log("Orders do customer:", orders);
+
+    const isLoading = loadingCustomer || loadingOrders;
 
     return (
         <div>
             {isLoading ? (
                 <p>Carregando...</p>
-            ) : filteredOrders.length === 0 ? (
-                <p>Nenhum pedido encontrado.</p>
             ) : (
-                <div className="max-h-[40vh] overflow-y-auto rounded-md">
-                    <DataTable columns={orderColumns} data={filteredOrders} />
-                </div>
+                <DataTable columns={orderColumns} data={orders ?? []} />
             )}
         </div>
     );

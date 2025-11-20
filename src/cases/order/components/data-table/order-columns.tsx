@@ -1,12 +1,11 @@
 import { type ColumnDef } from "@tanstack/react-table"
-
 import { FormattedNumber, IntlProvider } from "react-intl";
 import type { OrderDTO } from "../../dto/order.dto";
 
 const statusMap: Record<string, { label: string; color: string }> = {
   NEW: { label: "Novo", color: "text-blue-500" },
   SEPARATION: { label: "Em separação", color: "text-yellow-500" },
-  INVOICED: { label: "Faturado", color: "text-indigo-500" },
+  INVOINCED: { label: "Faturado", color: "text-indigo-500" },
   SHIPPED: { label: "Enviado", color: "text-cyan-500" },
   DELIVERED: { label: "Entregue", color: "text-green-600" },
   CANCELED: { label: "Cancelado", color: "text-red-500" },

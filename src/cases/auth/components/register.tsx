@@ -23,8 +23,7 @@ export default function Register() {
         stateId: "",
         cityId: "",
     });
-
-
+   
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -41,19 +40,16 @@ export default function Register() {
             if (signUpError) throw signUpError;
 
             createCustomer.mutate(
+                { name: formData.name, address: formData.address, zipcode: formData.zipcode, authId: signUpData.user?.id, } as CustomerDTO,
                 {
-                    name: formData.name,
-                    address: formData.address,
-                    zipcode: formData.zipcode,
-                    userId: signUpData.user?.id,
-                } as CustomerDTO,
-                {
-                    onSuccess: () => {
+                    onSuccess: (createdCustomer) => {
+                        localStorage.setItem('idCustommer', createdCustomer.id as string);
                         toast.success("Cadastro realizado com sucesso!");
                         navigate("/login");
                     },
                 }
             );
+
         } catch (err: unknown) {
             console.error(err);
 

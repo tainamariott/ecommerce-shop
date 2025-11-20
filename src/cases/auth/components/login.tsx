@@ -25,15 +25,20 @@ export function Login() {
         setIsLoading(true);
 
         try {
+            console.log('emial', email);
+            console.log('password', password);
             const { data, error } = await supabase.auth.signInWithPassword({
                 email,
                 password,
             });
 
             if (error) {
+                console.log('Login error:', error);
                 toast.error('Credenciais inválidas. Verifique seu e-mail e senha.');
                 return;
             }
+            
+            console.log('Login successful:', data.user);
 
             localStorage.setItem('user', JSON.stringify({id: data.user?.id, token: data.session?.access_token}) || '');
             toast.success('Login realizado com sucesso!');

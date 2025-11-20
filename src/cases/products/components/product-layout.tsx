@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useProducts } from "../hooks/use-product";
 import { ProductCard } from "./product-card";
@@ -11,24 +10,31 @@ export default function ProductLayout() {
   const { data: categories = [] } = useCategories();
 
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); // <-- campo de busca
   const [filteredProducts, setFilteredProducts] = useState(products);
 
   useEffect(() => {
-    // sempre atualizar os produtos filtrados quando products mudar (evita bug)
     setFilteredProducts(products);
   }, [products]);
 
   if (isLoading) return <p>Carregando...</p>;
 
   const handleFilter = () => {
-    if (!selectedCategory) {
-      setFilteredProducts(products);
-      return;
+    let filtered = products;
+
+    // filtro por categoria
+    if (selectedCategory) {
+      filtered = filtered.filter(
+        (p) => p.category?.id?.toString() === selectedCategory
+      );
     }
 
-    const filtered = products.filter(
-      (p) => p.category?.id?.toString() === selectedCategory
-    );
+    // filtro por busca (nome do produto)
+    if (searchTerm.trim() !== "") {
+      filtered = filtered.filter((p) =>
+        p.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
 
     setFilteredProducts(filtered);
   };
@@ -39,8 +45,25 @@ export default function ProductLayout() {
         Catálogo de Produtos
       </h1>
 
-      {/* Filtro */}
+      {/* Filtros */}
       <div className="flex items-end gap-4 mb-8">
+        
+        {/* Campo de busca */}
+        <div className="flex-1">
+          <label className="block text-sm font-medium mb-1">
+            Buscar produto
+          </label>
+
+          <input
+            type="text"
+            placeholder="Digite o nome..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full border rounded-lg p-2"
+          />
+        </div>
+
+        {/* Categoria */}
         <div className="flex-1">
           <label className="block text-sm font-medium mb-1">
             Categoria
@@ -52,7 +75,6 @@ export default function ProductLayout() {
             className="w-full border rounded-lg p-2"
           >
             <option value="">Todas</option>
-
             {categories.map((categoria: CategoryDTO) => (
               <option key={categoria.id} value={categoria.id}>
                 {categoria.name}

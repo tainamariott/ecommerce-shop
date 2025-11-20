@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import type { CustomerDTO } from "../dtos/customer-dto";
 import { CustomerService } from "../service/cutomer-service";
 
+
 export function useCustomers() {
     return useQuery<CustomerDTO[]>({
         queryKey: ["customers"],
@@ -37,4 +38,13 @@ export function useUpdateCustomer() {
             toast.error(`Erro ao alterar: ${error.message}`);
         }
     })
+}
+
+
+export function useCustomerByAuthId(authId: string) {
+    return useQuery({
+        queryKey: ["customerByAuthId", authId],
+        queryFn: () => CustomerService.getByAuthId(authId),
+        enabled: !!authId, // só executa se tiver authId
+    });
 }

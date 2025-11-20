@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 
 export interface CartItem {
-  id: number;
+  id: string;
   name: string;
   price: number;
   quantity: number;
+  userId?: string;
 }
 
 export function useCart() {
@@ -23,9 +24,7 @@ export function useCart() {
 
       if (exists) {
         return prev.map((p) =>
-          p.id === product.id
-            ? { ...p, quantity: p.quantity + 1 }
-            : p
+          p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p
         );
       }
 
@@ -33,7 +32,7 @@ export function useCart() {
     });
   }
 
-  function removeFromCart(id: number) {
+  function removeFromCart(id: string) {
     setCart((prev) => prev.filter((p) => p.id !== id));
   }
 
