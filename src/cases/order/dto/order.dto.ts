@@ -1,7 +1,6 @@
 import type { CustomerDTO } from "@/cases/customers/dtos/customer-dto";
 import type { OrderItemDTO } from "./order-item.dto";
 
-
 export interface OrderDTO {
     id?: string;
     custommer: CustomerDTO | string;

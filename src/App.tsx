@@ -9,10 +9,10 @@ import { ProtectedRoute } from "./cases/auth/guards/protected-route";
 import { CartProvider } from "./cases/cart/context/cart-provider";
 import "react-toastify/dist/ReactToastify.css";
 import { AccountLayout } from "./cases/account/components/account-layout";
-import { OrderLayout } from "./cases/order/components/order-layout";
-import { OrderHistoryLayout } from "./cases/order/components/order-history";
 import { FavoritesProvider } from "./cases/favorites/favorites-provider";
 import { FavoriteLayout } from "./cases/favorites/components/favorite-layout";
+import { OrderLayout } from "./cases/order/components/order-layout";
+import { OrderHistoryLayout } from "./cases/order/components/order-history";
 
 function App() {
     const location = useLocation();
@@ -33,7 +33,7 @@ function App() {
                             <Route path="/account" element={<ProtectedRoute><AccountLayout /></ProtectedRoute>} />
                             <Route path="/orders" element={<ProtectedRoute><OrderLayout /></ProtectedRoute>} />
                             <Route path="/history" element={<ProtectedRoute><OrderHistoryLayout /></ProtectedRoute>} />
-                            <Route path="/favoritos" element={<ProtectedRoute><FavoriteLayout/></ProtectedRoute>} />
+                            <Route path="/favoritos" element={<ProtectedRoute><FavoriteLayout /></ProtectedRoute>} />
                             <Route path="*" element={<Navigate to={token ? "/products" : "/login"} replace />} />
                         </Routes>
                     </main>

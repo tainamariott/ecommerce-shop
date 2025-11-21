@@ -1,5 +1,6 @@
 import type { CategoryDTO } from "@/cases/categories/dtos/category.dto";
 
+
 export interface ProductDTO {
   id?: string;
   name: string;
@@ -7,4 +8,6 @@ export interface ProductDTO {
   price: number;
   active: boolean;
   category: CategoryDTO;
+  rating: number;    
+  ratingsCount: number;
 }

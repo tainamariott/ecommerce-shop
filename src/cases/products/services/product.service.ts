@@ -12,7 +12,6 @@ export const ProductService = {
         return result.data;
     },
 
-
     async getById(id: string): Promise<ProductDTO> {
         const result = await api.get(`${_ENDPOINT}/${id}`);
         return result.data;
@@ -30,5 +29,10 @@ export const ProductService = {
 
     async delete(id: string): Promise<void> {
         await api.delete(`${_ENDPOINT}/${id}`);
+    },
+
+    async rate(productId: string, rating: number): Promise<void> {
+        await api.post(`${_ENDPOINT}/${productId}/rating`, { rating });
     }
+
 };

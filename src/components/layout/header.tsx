@@ -15,8 +15,8 @@ export function Header() {
 
     function handleLogout() {
         localStorage.removeItem("user");
-        localStorage.removeItem("token"); // caso você use token
-        navigate("/login"); // Redireciona para login
+        localStorage.removeItem("token");
+        navigate("/login");
     }
 
     return (
@@ -34,20 +34,13 @@ export function Header() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    {/* FAVORITOS */}
                     <button onClick={goToFavoritos}>
                         <Heart className="w-6 h-6 hover:text-red-500 transition" />
                     </button>
-
-                    {/* PEDIDOS */}
                     <button onClick={goToPedidos}>
                         <Package className="w-6 h-6 hover:text-blue-600 transition" />
                     </button>
-
-                    {/* Carrinho */}
                     <CartSidebar />
-
-                    {/* SAIR */}
                     <button
                         onClick={handleLogout}
                         className="hover:text-red-600 transition"

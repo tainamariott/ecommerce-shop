@@ -4,9 +4,10 @@ import { ShoppingCart, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCustomerByAuthId } from "@/cases/customers/hooks/use-customer";
 import { toast } from "react-toastify";
-import { useCreateOrder } from "@/cases/order/hooks/use-order";
 import { useCartContext } from "@/cases/cart/hooks/use-cart-context";
+import { useCreateOrder } from "@/cases/order/hooks/use-order";
 import type { OrderDTO } from "@/cases/order/dto/order.dto";
+import type { ProductDTO } from "@/cases/products/dtos/product.dto";
 
 export function CartSidebar() {
     const { cart, removeFromCart } = useCartContext();
@@ -16,7 +17,7 @@ export function CartSidebar() {
     const user = userStorage ? JSON.parse(userStorage) : null;
     const { data: customer } = useCustomerByAuthId(user?.id);
 
-    // 🔥 Filtrar itens do usuário logado
+
     const cartFiltered = cart.filter(item => item.userId === user?.id);
 
     console.log("Customer in CartSidebar:", customer);
@@ -33,7 +34,7 @@ export function CartSidebar() {
             total: cartFiltered.reduce((sum, item) => sum + item.price * item.quantity, 0),
             shipping: 10.0,
             items: cartFiltered.map(item => ({
-                product: item.id as string,
+                product: {id: item.id} as ProductDTO,
                 quantity: item.quantity,
                 value: item.price,
             }))
