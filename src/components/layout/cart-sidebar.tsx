@@ -34,7 +34,7 @@ export function CartSidebar() {
             total: cartFiltered.reduce((sum, item) => sum + item.price * item.quantity, 0),
             shipping: 10.0,
             items: cartFiltered.map(item => ({
-                product: {id: item.id} as ProductDTO,
+                product: { id: item.id } as ProductDTO,
                 quantity: item.quantity,
                 value: item.price,
             }))
@@ -49,12 +49,12 @@ export function CartSidebar() {
         <Sheet>
             <SheetTrigger asChild>
                 <div className="relative cursor-pointer">
-                    <div className="bg-black text-white flex w-10 h-10 items-center justify-center rounded-xl">
-                        <ShoppingCart className="w-5 h-5" />
+                    <div className="p-2 rounded-xl hover:bg-gray-100 transition flex items-center justify-center">
+                        <ShoppingCart className="w-5 h-5 text-black" />
                     </div>
 
                     {cartFiltered.length > 0 && (
-                        <span className=" absolute -top-2 -right-2 bg-red-600 text-white w-5 h-5 flex items-center justify-center  text-xs font-bold rounded-full">
+                        <span className="absolute -top-2 -right-2 bg-red-600 text-white w-5 h-5 flex items-center justify-center text-xs font-bold rounded-full">
                             {cartFiltered.length}
                         </span>
                     )}

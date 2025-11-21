@@ -21,15 +21,11 @@ export default function ProductLayout() {
 
   const handleFilter = () => {
     let filtered = products;
-
-    // filtro por categoria
     if (selectedCategory) {
       filtered = filtered.filter(
         (p) => p.category?.id?.toString() === selectedCategory
       );
     }
-
-    // filtro por busca (nome do produto)
     if (searchTerm.trim() !== "") {
       filtered = filtered.filter((p) =>
         p.name.toLowerCase().includes(searchTerm.toLowerCase())

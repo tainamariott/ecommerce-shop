@@ -1,55 +1,76 @@
-import { ShoppingCart, Heart, Package, LogOut } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { ShoppingCart, Heart, Package, LogOut, ArrowLeft } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { CartSidebar } from "./cart-sidebar";
 
 export function Header() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    function goToFavoritos() {
-        navigate('/favoritos');
-    }
+  const isHome = location.pathname === "/products";
 
-    function goToPedidos() {
-        navigate('/orders');
-    }
+  function goHome() {
+    navigate("/products");
+  }
 
-    function handleLogout() {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        navigate("/login");
-    }
+  function goToFavoritos() {
+    navigate("/favoritos");
+  }
 
-    return (
-        <header className="w-full bg-white shadow p-4">
-            <div className="w-full flex items-center justify-between">
+  function goToPedidos() {
+    navigate("/orders");
+  }
 
-                <div className="flex items-center gap-3">
-                    <div className="bg-black text-white flex w-8 h-8 items-center justify-center rounded-lg">
-                        <ShoppingCart className="w-4 h-4" />
-                    </div>
+  function handleLogout() {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    navigate("/login");
+  }
 
-                    <div className="flex flex-col gap-0.5 leading-none">
-                        <span className="font-medium">E-commerce SHOP</span>
-                    </div>
-                </div>
+  return (
+    <header className="w-full bg-white shadow-sm px-6 py-4 border-b border-gray-200">
+      <div className="w-full flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          {!isHome && (
+            <button onClick={goHome} className="p-2 rounded-xl hover:bg-gray-100 transition">
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+          )}
 
-                <div className="flex items-center gap-4">
-                    <button onClick={goToFavoritos}>
-                        <Heart className="w-6 h-6 hover:text-red-500 transition" />
-                    </button>
-                    <button onClick={goToPedidos}>
-                        <Package className="w-6 h-6 hover:text-blue-600 transition" />
-                    </button>
-                    <CartSidebar />
-                    <button
-                        onClick={handleLogout}
-                        className="hover:text-red-600 transition"
-                        title="Sair"
-                    >
-                        <LogOut className="w-6 h-6" />
-                    </button>
-                </div>
+          <div className="flex items-center gap-3 cursor-pointer" onClick={goHome}>
+            <div className="p-2 rounded-xl bg-black text-white flex items-center justify-center">
+              <ShoppingCart className="w-5 h-5" />
             </div>
-        </header>
-    );
+
+            <h1 className="font-semibold text-lg tracking-tight">E-commerce Shop</h1>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <button
+            onClick={goToFavoritos}
+            className="p-2 rounded-xl hover:bg-gray-100 transition flex items-center justify-center"
+          >
+            <Heart className="w-5 h-5" />
+          </button>
+
+          <button
+            onClick={goToPedidos}
+            className="p-2 rounded-xl hover:bg-gray-100 transition flex items-center justify-center"
+          >
+            <Package className="w-5 h-5" />
+          </button>
+
+          <CartSidebar />
+
+          <button
+            onClick={handleLogout}
+            className="p-2 rounded-xl hover:bg-red-100 text-red-600 transition flex items-center justify-center"
+            title="Sair"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+    </header>
+  );
 }
